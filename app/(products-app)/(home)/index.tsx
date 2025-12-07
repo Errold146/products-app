@@ -1,22 +1,39 @@
-import { View } from 'react-native';
+import { router } from 'expo-router';
+import { ActivityIndicator, View } from 'react-native';
 
-import { Fonts } from '@/constants/theme';
-import { ThemedText } from '@/presentation/theme/components/themed-text';
-import { useThemeColor } from '@/presentation/theme/hooks/use-theme-color';
+import ProductsList from '@/presentation/products/components/ProductsList';
+import { useProducts } from '@/presentation/products/hooks/useProducts';
+import { FAB } from '@/presentation/theme/components/FAB';
 
 export default function HomeScreen() {
 
-    const primary = useThemeColor({}, 'primary')
+    const { productsQuery, loadNextPage } = useProducts()
+
+    if ( productsQuery.isLoading ) {
+        return (
+            <View 
+                style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}
+            >
+                <ActivityIndicator size={40} />
+            </View>
+        )
+    }
 
     return (
-        <View
-            style={{
-                padding: 20,
-            }}
-        >
-            <ThemedText style={{ fontFamily: Fonts.custom.thin}}>HomeScreen</ThemedText>
-            <ThemedText style={{ fontFamily: Fonts.custom.regular}}>HomeScreen</ThemedText>
-            <ThemedText style={{ fontFamily: Fonts.custom.bold, color: primary}}>HomeScreen</ThemedText>
+        <View style={{ paddingVertical: 5 }}>
+            <ProductsList 
+                products={productsQuery.data?.pages.flatMap(page => page) ?? []} 
+                loadNextPage={loadNextPage} 
+            />
+
+            <FAB 
+                iconName='add-outline'
+                onPress={() => router.push('/(products-app)/products/new')}
+            />
         </View>
     )
 }

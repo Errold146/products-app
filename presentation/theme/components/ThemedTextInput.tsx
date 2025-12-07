@@ -1,13 +1,13 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useRef, useState } from 'react';
-import { StyleSheet, TextInput, TextInputProps, View } from 'react-native';
+import { StyleSheet, TextInput, TextInputProps, View, ViewStyle } from 'react-native';
 import { useThemeColor } from '../hooks/use-theme-color';
 
 interface Props extends TextInputProps {
     icon?: keyof typeof Ionicons.glyphMap
 }
 
-export default function ThemedTextInput({icon, ...rest}: Props) {
+export default function ThemedTextInput({icon, style, ...rest}: Props) {
 
     const [isActive, setIsActive] = useState(false)
     const inputRef = useRef<TextInput>(null)
@@ -17,10 +17,13 @@ export default function ThemedTextInput({icon, ...rest}: Props) {
     
     return (
         <View
-            style={{
-                ...styles.border,
-                borderColor: isActive ? primaryColor : '#ccc'
-            }}
+            style={[
+                {
+                    ...styles.border,
+                    borderColor: isActive ? primaryColor : '#ccc'
+                }, 
+                style as ViewStyle,
+            ]}
             onTouchStart={() => inputRef.current?.focus()}
         >
             {
@@ -37,7 +40,7 @@ export default function ThemedTextInput({icon, ...rest}: Props) {
             <TextInput 
                 ref={inputRef}
                 {...rest} 
-                placeholderTextColor='#5c5c5c'
+                placeholderTextColor='gray'
                 onFocus={() => setIsActive(true)} 
                 onBlur={() => setIsActive(false)}
                 style={{

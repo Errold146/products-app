@@ -34,8 +34,7 @@ export default function ThemedButton({icon, children, ...rest}: Props) {
 
 const styles = StyleSheet.create({
     btn: {
-        paddingHorizontal: 15,
-        paddingVertical: 10,
+        padding: 10,
         borderRadius: 5,
         alignItems: 'center',
         flexDirection: 'row',

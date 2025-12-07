@@ -27,7 +27,7 @@ export default function CheckAuthenticationLayout() {
                     backgroundColor
                 }}
             >
-                <ActivityIndicator  size={40} />
+                <ActivityIndicator size={40} />
             </View>
         )
     }
@@ -61,6 +61,13 @@ export default function CheckAuthenticationLayout() {
                     options={{
                         title: 'Productos',
                         headerLeft: () => <LogoutIconButton />
+                    }}
+                />
+                
+                <Stack.Screen 
+                    name='products/[id]'
+                    options={{
+                        title: 'Producto'
                     }}
                 />
             </Stack>
